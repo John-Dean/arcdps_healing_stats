@@ -73,6 +73,13 @@ EventProcessor::EventProcessor()
 {
 }
 
+void EventProcessor::SetTrackBarrier(bool pEnabled)
+{
+	LogI("Setting tracking barrier to {} (previous value {})",
+		pEnabled, mEvtcLoggingEnabled.load(std::memory_order_relaxed));
+	trackBarrier.store(pEnabled, std::memory_order_relaxed);
+}
+
 void EventProcessor::SetEvtcLoggingEnabled(bool pEnabled)
 {
 	LogI("Setting evtc logging enabled to {} (previous value {})",
@@ -421,8 +428,12 @@ void EventProcessor::LocalCombat(cbtevent* pEvent, ag* pSourceAgent, ag* pDestin
 
 	if (pEvent->is_shields != 0)
 	{
-		// Shield application - not tracking for now
-		return;
+
+		if (trackBarrier.load(std::memory_order_relaxed) == false)
+		{
+			// Shield application - not tracking for now
+			return;
+		}
 	}
 
 	if (pSourceAgent->self == 0 &&
@@ -570,8 +581,11 @@ void EventProcessor::PeerCombat(cbtevent* pEvent, uint16_t pPeerInstanceId)
 
 	if (pEvent->is_shields != 0)
 	{
-		// Shield application - not tracking for now
-		return;
+		if (trackBarrier.load(std::memory_order_relaxed) == false)
+		{
+			// Shield application - not tracking for now
+			return;
+		}
 	}
 
 	if (pEvent->src_instid != pPeerInstanceId &&

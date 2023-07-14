@@ -249,6 +249,7 @@ arcdps_exports* mod_init()
 		std::lock_guard lock(HEAL_TABLE_OPTIONS_MUTEX);
 		HEAL_TABLE_OPTIONS.Load(JSON_CONFIG_PATH);
 
+		GlobalObjects::EVENT_PROCESSOR->SetTrackBarrier(HEAL_TABLE_OPTIONS.TrackBarrier);
 		Log_::SetLevel(HEAL_TABLE_OPTIONS.LogLevel);
 		GlobalObjects::EVENT_PROCESSOR->SetEvtcLoggingEnabled(HEAL_TABLE_OPTIONS.EvtcLoggingEnabled);
 		GlobalObjects::EVTC_RPC_CLIENT->SetEnabledStatus(HEAL_TABLE_OPTIONS.EvtcRpcEnabled);

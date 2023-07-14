@@ -314,6 +314,7 @@ void HealTableOptions::FromJson(const nlohmann::json& pJsonObject)
 	}
 
 	GetJsonValue(pJsonObject, "AutoUpdateSetting", AutoUpdateSetting);
+	GetJsonValue(pJsonObject, "TrackBarrier", TrackBarrier);
 	GetJsonValue(pJsonObject, "DebugMode", DebugMode);
 	GetJsonValue(pJsonObject, "LogLevel", LogLevel);
 	GetJsonValue(pJsonObject, "EvtcLoggingEnabled", EvtcLoggingEnabled);
@@ -373,6 +374,7 @@ do {\
 
 	SET_JSON_VAL(AutoUpdateSetting);
 	SET_JSON_VAL(DebugMode);
+	SET_JSON_VAL(TrackBarrier);
 	SET_JSON_VAL(LogLevel);
 	SET_JSON_VAL(EvtcLoggingEnabled);
 	SET_JSON_VAL_CSTR_ARRAY(EvtcRpcEndpoint);

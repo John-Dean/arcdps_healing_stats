@@ -676,6 +676,17 @@ void Display_AddonOptions(HealTableOptions& pHealingOptions)
 	ImGuiEx::SmallUnindent();
 
 	ImGuiEx::ComboMenu("auto updates", pHealingOptions.AutoUpdateSetting, AUTO_UPDATE_SETTING_ITEMS);
+
+	ImGui::Separator();
+	if (ImGuiEx::SmallCheckBox("Track barrier", &pHealingOptions.TrackBarrier) == true)
+	{
+		GlobalObjects::EVENT_PROCESSOR->SetTrackBarrier(pHealingOptions.TrackBarrier);
+	}
+	ImGuiEx::AddTooltipToLastItem(
+		"Include barrier in the healing GUI");
+	ImGui::Separator();
+
+
 	ImGuiEx::SmallCheckBox("debug mode", &pHealingOptions.DebugMode);
 	ImGuiEx::AddTooltipToLastItem(
 		"Includes debug data in target and skill names.\n"
